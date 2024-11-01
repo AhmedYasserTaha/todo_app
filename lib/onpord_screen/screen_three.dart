@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/start_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 
 class ScreenThree extends StatefulWidget {
@@ -82,7 +83,11 @@ class _ScreenThreeState extends State<ScreenThree> {
                         color: AppColors.pSocundColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => StartScreen(),
+                          ));
+                        },
                         child: Text(
                           "Get Started",
                           style: TextStyle(

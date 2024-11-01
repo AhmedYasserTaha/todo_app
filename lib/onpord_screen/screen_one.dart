@@ -60,8 +60,8 @@ class _ScreenOneState extends State<ScreenOne> {
               height: 50,
             ),
             Text(
-              "Manage your tasks",
-              style: TextStyle(
+              'Manage your tasks',
+              style: GoogleFonts.lato(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   color: Colors.white),
@@ -70,12 +70,11 @@ class _ScreenOneState extends State<ScreenOne> {
               height: 40,
             ),
             Text(
-              textAlign: TextAlign.center,
-              "You can easily manage all of your daily\n tasks in DoMe for free",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: const Color.fromARGB(206, 255, 255, 255)),
-            ),
+                textAlign: TextAlign.center,
+                "You can easily manage all of your daily\n tasks in DoMe for free",
+                style: GoogleFonts.lato(
+                    fontSize: 16,
+                    color: const Color.fromARGB(213, 255, 255, 255))),
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(left: 261, bottom: 62),
