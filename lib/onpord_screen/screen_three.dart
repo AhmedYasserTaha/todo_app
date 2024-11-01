@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/onpord_screen/widget/onpord_screen_widget.dart';
 import 'package:todo_app/start_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 
@@ -22,7 +23,7 @@ class _ScreenThreeState extends State<ScreenThree> {
             const SizedBox(
               height: 54,
             ),
-            Image.asset("assets/images/onpord_screen_3.png"),
+            const ImageScreen(name: "assets/images/onpord_screen_3.png"),
             const SizedBox(
               height: 20,
             ),
@@ -39,41 +40,20 @@ class _ScreenThreeState extends State<ScreenThree> {
             const SizedBox(
               height: 50,
             ),
-            const Text(
-              "Organaize your tasks",
-              style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-            ),
+            const TextCenter(title: "Organaize your tasks"),
             const SizedBox(
               height: 40,
             ),
-            const Text(
-              textAlign: TextAlign.center,
-              "You can organize your daily tasks by\n adding your tasks into separate categories",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: const Color.fromARGB(206, 255, 255, 255)),
-            ),
+            SmallText(
+                title:
+                    "You can organize your daily tasks by\n adding your tasks into separate categories"),
             const Spacer(),
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 62, left: 24),
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "BACK",
-                        style: TextStyle(
-                            color: const Color.fromARGB(164, 255, 255, 255),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400),
-                      )),
-                ),
-                Spacer(),
+                BouttomBack(onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 62, right: 24),
                   child: Container(
@@ -88,7 +68,7 @@ class _ScreenThreeState extends State<ScreenThree> {
                             builder: (context) => StartScreen(),
                           ));
                         },
-                        child: Text(
+                        child: const Text(
                           "Get Started",
                           style: TextStyle(
                               color: Colors.white,

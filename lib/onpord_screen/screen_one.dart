@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/onpord_screen/screen_three.dart';
 import 'package:todo_app/onpord_screen/screen_tow.dart';
+import 'package:todo_app/onpord_screen/widget/onpord_screen_widget.dart';
 import 'package:todo_app/utils/app_colors.dart';
 
 class ScreenOne extends StatefulWidget {
@@ -20,30 +20,18 @@ class _ScreenOneState extends State<ScreenOne> {
         backgroundColor: AppColors.pDarkColor,
         body: Column(
           children: [
-            TextButton(
+            OnpordScreenWidget(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ScreenThree(),
                   ));
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 14, left: 24),
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "SKIP",
-                      style: TextStyle(
-                          color: const Color.fromARGB(120, 255, 255, 255),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                )),
-            SizedBox(
+                tilte: "SKIP"),
+            const SizedBox(
               height: 20,
             ),
-            Image.asset("assets/images/onpord_screen_1.png"),
-            SizedBox(
+            const ImageScreen(name: "assets/images/onpord_screen_1.png"),
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -56,26 +44,19 @@ class _ScreenOneState extends State<ScreenOne> {
                 CostomIndecator(acttive: index == 2),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Text(
-              'Manage your tasks',
-              style: GoogleFonts.lato(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
+            const TextCenter(
+              title: "Manage your tasks",
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            Text(
-                textAlign: TextAlign.center,
-                "You can easily manage all of your daily\n tasks in DoMe for free",
-                style: GoogleFonts.lato(
-                    fontSize: 16,
-                    color: const Color.fromARGB(213, 255, 255, 255))),
-            Spacer(),
+            const SmallText(
+                title:
+                    "You can easily manage all of your daily\n tasks in DoMe for free"),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.only(left: 261, bottom: 62),
               child: Container(
@@ -90,8 +71,8 @@ class _ScreenOneState extends State<ScreenOne> {
                         builder: (context) => ScreenTow(),
                       ));
                     },
-                    child: Text(
-                      "Next",
+                    child: const Text(
+                      "NEXT",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,

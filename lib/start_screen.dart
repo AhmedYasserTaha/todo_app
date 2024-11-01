@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/home/create_account_screen.dart';
 import 'package:todo_app/home/login_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
+import 'package:todo_app/widget/matrial_buttom_widget.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -16,7 +15,7 @@ class StartScreen extends StatelessWidget {
         backgroundColor: AppColors.pDarkColor,
         appBar: AppBar(
           backgroundColor: AppColors.pDarkColor,
-          iconTheme: IconThemeData(color: Colors.white, size: 30),
+          iconTheme: const IconThemeData(color: Colors.white, size: 30),
         ),
         body: Center(
           child: Padding(
@@ -30,7 +29,7 @@ class StartScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 26,
                 ),
                 Text(
@@ -40,50 +39,26 @@ class StartScreen extends StatelessWidget {
                       color: const Color.fromARGB(164, 255, 255, 255)),
                   textAlign: TextAlign.center,
                 ),
-                Spacer(),
-                MaterialButton(
+                const Spacer(),
+                ButtomLogin(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
+                      builder: (context) => const LoginScreen(),
                     ));
                   },
-                  color: AppColors.pSocundColor,
-                  minWidth: 350,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "LOGIN",
-                      style: GoogleFonts.lato(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
+                  title: "LOGIN",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.pSocundColor),
-                  ),
-                  child: MaterialButton(
+                BouttomCreateAccount(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreateAccountScreen(),
+                        builder: (context) => const CreateAccountScreen(),
                       ));
                     },
-                    minWidth: 350,
-                    child: Text(
-                      "CREATE ACCOUNT",
-                      style: GoogleFonts.lato(
-                          color: AppColors.ptextColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-                SizedBox(
+                    textBouttom: 'CREATE ACCOUNT'),
+                const SizedBox(
                   height: 60,
                 ),
               ],
