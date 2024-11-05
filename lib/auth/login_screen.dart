@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_app/home/create_account_screen.dart';
+import 'package:todo_app/auth/create_account_screen.dart';
+import 'package:todo_app/home/empty_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/widget/matrial_buttom_widget.dart';
 
@@ -51,7 +52,13 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            ButtomLogin(onPressed: () {}, title: "LOGIN"),
+            ButtomLogin(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => EmptyScreen(),
+                  ));
+                },
+                title: "LOGIN"),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_app/home/login_screen.dart';
+import 'package:todo_app/auth/login_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/widget/matrial_buttom_widget.dart';
 
