@@ -6,8 +6,7 @@ import 'package:todo_app/widget/matrial_buttom_widget.dart';
 import 'package:intl/intl.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  AddTaskScreen({super.key});
-
+  const AddTaskScreen({super.key});
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
@@ -19,6 +18,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const List<int> colorCode = [
+      0xffFF4666,
+      0xff66CC41,
+      0xff41CCA7,
+      0xff4181CC,
+      0xffCC8441,
+      0xff9741CC
+    ];
+    int activeColor = 0xffFF4666;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white, size: 30),
@@ -33,6 +41,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap(50),
             TextFormFieldWidget(
@@ -79,7 +88,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   borderSide: const BorderSide(
                       color: Color.fromARGB(255, 255, 255, 255)),
                 ),
-                icon: Icon(
+                icon: const Icon(
                   Icons.date_range_outlined,
                   size: 30,
                   color: AppColors.pSocundColor,
@@ -116,7 +125,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     decoration: InputDecoration(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.more_time_sharp,
                         size: 30,
                         color: AppColors.pSocundColor,
@@ -151,7 +160,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     decoration: InputDecoration(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.more_time_sharp,
                         size: 30,
                         color: AppColors.pSocundColor,
@@ -175,7 +184,50 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                 ),
               ],
-            )
+            ),
+            const Gap(20),
+            Text(
+              "Color",
+              style: GoogleFonts.lato(color: Colors.white, fontSize: 20),
+            ),
+            const Gap(20),
+            SizedBox(
+              height: 80,
+              child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          activeColor = colorCode[index];
+                          setState(() {});
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  color: Color(colorCode[index]),
+                                  shape: BoxShape.circle,
+                                  border: activeColor == colorCode[index]
+                                      ? Border.all(
+                                          color: Colors.white, width: 2)
+                                      : null),
+                            ),
+                            activeColor == colorCode[index]
+                                ? Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                  )
+                                : SizedBox(),
+                          ],
+                        ),
+                      ),
+                  separatorBuilder: (context, index) => Gap(15),
+                  itemCount: colorCode.length),
+            ),
+            const Spacer(),
+            ButtomLogin(onPressed: () {}, title: "Create Task"),
+            Gap(20),
           ],
         ),
       ),

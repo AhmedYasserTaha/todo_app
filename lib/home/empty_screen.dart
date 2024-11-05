@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/home/add_task_screen.dart';
-import 'package:todo_app/onpord_screen/widget/onpord_screen_widget.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:intl/intl.dart';
 
 class EmptyScreen extends StatefulWidget {
-  EmptyScreen({super.key});
+  const EmptyScreen({super.key});
 
   @override
   State<EmptyScreen> createState() => _EmptyScreenState();
@@ -40,7 +39,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
         child: Column(
           children: [
             const Gap(15),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Text(
                 "Today",
@@ -69,7 +68,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
           );
         },
         backgroundColor: AppColors.pSocundColor,
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 30,
           color: Colors.white,

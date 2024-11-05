@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/home/empty_screen.dart';
+import 'package:todo_app/home/add_task_screen.dart';
 import 'package:todo_app/splash_screen.dart';
 
 void main() {
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: EmptyScreen(),
+      home: AddTaskScreen(),
     );
   }
 }
