@@ -23,6 +23,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
   @override
   Widget build(BuildContext context) {
     var siz = MediaQuery.of(context).size;
+    List<int> taskList = [];
     return Scaffold(
       backgroundColor: AppColors.pDarkColor,
       appBar: AppBar(
@@ -51,11 +52,70 @@ class _EmptyScreenState extends State<EmptyScreen> {
             ),
             const Gap(20),
             _easyInfiniteDateTimeLineWidget(),
-            Image.asset(
-              "assets/images/background_hs.png",
-              height: siz.height * .40,
-              width: siz.width * 80,
-            ),
+            const Gap(50),
+            taskList.isEmpty
+                ? Image.asset(
+                    "assets/images/background_hs.png",
+                    height: siz.height * .40,
+                    width: siz.width * 80,
+                  )
+                : Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    height: siz.height * .16,
+                    width: siz.width * .90,
+                    decoration: BoxDecoration(
+                        color: Color(0xffFF4666),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Task 1",
+                              style: GoogleFonts.lato(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            Gap(10),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.timer,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                                Gap(10),
+                                Text(
+                                  "09:33 PM - 09:48 PM",
+                                  style: GoogleFonts.lato(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            Gap(10),
+                            Text("Learn Dart",
+                                style: GoogleFonts.lato(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white))
+                          ],
+                        ),
+                        const Spacer(),
+                        Container(
+                          width: 1.5,
+                          height: 80,
+                          color: Colors.white,
+                        ),
+                        Gap(15),
+                        Image.asset("assets/images/todo_icon.png"),
+                        Gap(5),
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),

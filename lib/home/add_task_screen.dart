@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/home/empty_screen.dart';
+import 'package:todo_app/home/widget/task_widget_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/widget/matrial_buttom_widget.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +52,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               tilte: "Title",
               obscureText: false,
             ),
-            Gap(25),
+            const Gap(25),
             TextFormFieldWidget(
               controller: TextEditingController(),
               hintText: " Enter note here",
@@ -66,123 +68,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
             ),
             Gap(10),
-            TextFormField(
-              controller: datePicker,
-              style: GoogleFonts.lato(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              decoration: InputDecoration(
-                hintText: "Pick a crunnt Date",
-                hintStyle: GoogleFonts.lato(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: AppColors.pSocundColor),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                ),
-                icon: const Icon(
-                  Icons.date_range_outlined,
-                  size: 30,
-                  color: AppColors.pSocundColor,
-                ),
-              ),
-              onTap: () async {
-                DateTime? datetime = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2025));
-
-                if (datetime != null) {
-                  String formattedDate =
-                      DateFormat('dd-MMMM-yyyy').format(datetime);
-
-                  setState(() {
-                    datePicker.text = formattedDate;
-                  });
-                }
-              },
-            ),
+            dateFromeHistory(context),
             const Gap(50),
             Row(
               children: [
-                Container(
-                  height: 50,
-                  width: 180,
-                  child: TextFormField(
-                    controller: starttimePicker,
-                    style: GoogleFonts.lato(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      icon: const Icon(
-                        Icons.more_time_sharp,
-                        size: 30,
-                        color: AppColors.pSocundColor,
-                      ),
-                      labelText: "Start Time",
-                      labelStyle: TextStyle(fontSize: 18, color: Colors.grey),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onTap: () async {
-                      var time = await showTimePicker(
-                          context: context, initialTime: TimeOfDay.now());
-
-                      if (time != null) {
-                        setState(() {
-                          starttimePicker.text = time.format(context);
-                        });
-                      }
-                    },
-                  ),
-                ),
-                Gap(15),
-                Container(
-                  height: 50,
-                  width: 180,
-                  child: TextFormField(
-                    controller: endtimePicker,
-                    style: GoogleFonts.lato(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      icon: const Icon(
-                        Icons.more_time_sharp,
-                        size: 30,
-                        color: AppColors.pSocundColor,
-                      ),
-                      labelText: "End Time",
-                      labelStyle: TextStyle(fontSize: 18, color: Colors.grey),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onTap: () async {
-                      var time = await showTimePicker(
-                          context: context, initialTime: TimeOfDay.now());
-
-                      if (time != null) {
-                        setState(() {
-                          endtimePicker.text = time.format(context);
-                        });
-                      }
-                    },
-                  ),
-                ),
+                StartAndEndtimer(hintLabelText: "Start Time"),
+                Gap(20),
+                StartAndEndtimer(hintLabelText: "End Time"),
               ],
             ),
             const Gap(20),
@@ -214,7 +106,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       : null),
                             ),
                             activeColor == colorCode[index]
-                                ? Icon(
+                                ? const Icon(
                                     Icons.check,
                                     color: Colors.white,
                                   )
@@ -226,11 +118,61 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   itemCount: colorCode.length),
             ),
             const Spacer(),
-            ButtomLogin(onPressed: () {}, title: "Create Task"),
+            ButtomLogin(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EmptyScreen(),
+                  ));
+                },
+                title: "Create Task"),
             Gap(20),
           ],
         ),
       ),
+    );
+  }
+
+  TextFormField dateFromeHistory(BuildContext context) {
+    return TextFormField(
+      controller: datePicker,
+      style: GoogleFonts.lato(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      decoration: InputDecoration(
+          hintText: "Pick a crunnt Date",
+          hintStyle: GoogleFonts.lato(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: AppColors.pSocundColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+          ),
+          suffixIcon: Icon(
+            Icons.date_range_outlined,
+            size: 30,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          )),
+      onTap: () async {
+        DateTime? datetime = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2020),
+            lastDate: DateTime(2025));
+
+        if (datetime != null) {
+          String formattedDate = DateFormat('dd-MMMM-yyyy').format(datetime);
+
+          setState(() {
+            datePicker.text = formattedDate;
+          });
+        }
+      },
     );
   }
 }
