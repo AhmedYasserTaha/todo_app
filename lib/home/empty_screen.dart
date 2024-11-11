@@ -60,11 +60,12 @@ class _EmptyScreenState extends State<EmptyScreen> {
                     width: siz.width * 80,
                   )
                 : Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     height: siz.height * .16,
                     width: siz.width * .90,
                     decoration: BoxDecoration(
-                        color: Color(0xffFF4666),
+                        color: const Color(0xffFF4666),
                         borderRadius: BorderRadius.circular(20)),
                     child: Row(
                       children: [
@@ -78,15 +79,15 @@ class _EmptyScreenState extends State<EmptyScreen> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            Gap(10),
+                            const Gap(10),
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.timer,
                                   color: Colors.white,
                                   size: 25,
                                 ),
-                                Gap(10),
+                                const Gap(10),
                                 Text(
                                   "09:33 PM - 09:48 PM",
                                   style: GoogleFonts.lato(
@@ -96,7 +97,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
                                 ),
                               ],
                             ),
-                            Gap(10),
+                            const Gap(10),
                             Text("Learn Dart",
                                 style: GoogleFonts.lato(
                                     fontSize: 24,
@@ -110,9 +111,9 @@ class _EmptyScreenState extends State<EmptyScreen> {
                           height: 80,
                           color: Colors.white,
                         ),
-                        Gap(15),
+                        const Gap(15),
                         Image.asset("assets/images/todo_icon.png"),
-                        Gap(5),
+                        const Gap(5),
                       ],
                     ),
                   ),
@@ -123,7 +124,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AddTaskScreen(),
+              builder: (context) => const AddTaskScreen(),
             ),
           );
         },
@@ -141,10 +142,10 @@ class _EmptyScreenState extends State<EmptyScreen> {
     return EasyInfiniteDateTimeLine(
       firstDate: DateTime.now(),
       focusDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 30)),
+      lastDate: DateTime.now().add(const Duration(days: 30)),
       showTimelineHeader: false,
-      physics: BouncingScrollPhysics(),
-      activeColor: Color(0xff242969),
+      physics: const BouncingScrollPhysics(),
+      activeColor: const Color(0xff242969),
       dayProps: const EasyDayProps(
         borderColor: AppColors.pDarkColor,
         inactiveDayNumStyle:

@@ -56,17 +56,20 @@ class BouttomCreateAccount extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFormFieldWidget extends StatelessWidget {
-  const TextFormFieldWidget(
+  TextFormFieldWidget(
       {super.key,
       required this.controller,
       required this.hintText,
       required this.tilte,
-      required this.obscureText});
+      required this.obscureText,
+      required this.validator});
   final TextEditingController controller;
   final String hintText;
   final String tilte;
   final bool obscureText;
+  String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,6 +84,7 @@ class TextFormFieldWidget extends StatelessWidget {
           height: 10,
         ),
         TextFormField(
+          validator: validator,
           obscureText: obscureText,
           controller: controller,
           style: GoogleFonts.lato(

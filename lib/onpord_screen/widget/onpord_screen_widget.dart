@@ -17,8 +17,8 @@ class OnpordScreenWidget extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               tilte,
-              style: TextStyle(
-                  color: const Color.fromARGB(120, 255, 255, 255),
+              style: const TextStyle(
+                  color: Color.fromARGB(120, 255, 255, 255),
                   fontSize: 18,
                   fontWeight: FontWeight.w400),
             ),

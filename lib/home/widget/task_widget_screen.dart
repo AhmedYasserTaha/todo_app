@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartAndEndtimer extends StatefulWidget {
-  StartAndEndtimer({super.key, required this.hintLabelText});
+  const StartAndEndtimer({super.key, required this.hintLabelText});
   final String hintLabelText;
 
   @override
@@ -14,7 +14,7 @@ class _StartAndEndtimerState extends State<StartAndEndtimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: 180,
       child: TextFormField(
@@ -26,7 +26,7 @@ class _StartAndEndtimerState extends State<StartAndEndtimer> {
         ),
         decoration: InputDecoration(
           labelText: widget.hintLabelText,
-          labelStyle: TextStyle(fontSize: 18, color: Colors.grey),
+          labelStyle: const TextStyle(fontSize: 18, color: Colors.grey),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),

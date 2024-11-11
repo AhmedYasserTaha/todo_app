@@ -23,7 +23,7 @@ class _ScreenOneState extends State<ScreenOne> {
             OnpordScreenWidget(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ScreenThree(),
+                    builder: (context) => const ScreenThree(),
                   ));
                 },
                 tilte: "SKIP"),
@@ -38,9 +38,9 @@ class _ScreenOneState extends State<ScreenOne> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CostomIndecator(acttive: index == 0),
-                SizedBox(width: 7),
+                const SizedBox(width: 7),
                 CostomIndecator(acttive: index == 1),
-                SizedBox(width: 7),
+                const SizedBox(width: 7),
                 CostomIndecator(acttive: index == 2),
               ],
             ),
@@ -68,7 +68,7 @@ class _ScreenOneState extends State<ScreenOne> {
                 child: TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ScreenTow(),
+                        builder: (context) => const ScreenTow(),
                       ));
                     },
                     child: const Text(
@@ -94,7 +94,7 @@ class CostomIndecator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(56),
           color: acttive ? Colors.white : Colors.grey),

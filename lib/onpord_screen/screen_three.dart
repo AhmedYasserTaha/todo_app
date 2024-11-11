@@ -31,9 +31,9 @@ class _ScreenThreeState extends State<ScreenThree> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CostomIndecator(acttive: index == 2),
-                SizedBox(width: 7),
+                const SizedBox(width: 7),
                 CostomIndecator(acttive: index == 1),
-                SizedBox(width: 7),
+                const SizedBox(width: 7),
                 CostomIndecator(acttive: index == 0),
               ],
             ),
@@ -44,7 +44,7 @@ class _ScreenThreeState extends State<ScreenThree> {
             const SizedBox(
               height: 40,
             ),
-            SmallText(
+            const SmallText(
                 title:
                     "You can organize your daily tasks by\n adding your tasks into separate categories"),
             const Spacer(),
@@ -65,7 +65,7 @@ class _ScreenThreeState extends State<ScreenThree> {
                     child: TextButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => StartScreen(),
+                            builder: (context) => const StartScreen(),
                           ));
                         },
                         child: const Text(
@@ -93,7 +93,7 @@ class CostomIndecator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(56),
           color: acttive ? Colors.white : Colors.grey),
