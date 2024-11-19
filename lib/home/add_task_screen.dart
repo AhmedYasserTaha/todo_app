@@ -53,6 +53,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 hintText: " Enter title here",
                 tilte: "Title",
                 obscureText: false,
+                abstract: const Icon(
+                  Icons.title,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
               const Gap(25),
               TextFormFieldWidget(
@@ -61,6 +66,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 hintText: " Enter note here",
                 tilte: "Note",
                 obscureText: false,
+                abstract: const Icon(
+                  Icons.note,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
               const Gap(25),
               Container(

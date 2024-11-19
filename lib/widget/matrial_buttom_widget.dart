@@ -43,12 +43,12 @@ class BouttomCreateAccount extends StatelessWidget {
       ),
       child: MaterialButton(
         onPressed: onPressed,
-        minWidth: 350,
+        minWidth: 370,
         child: Text(
           textBouttom,
           style: GoogleFonts.lato(
               color: AppColors.ptextColor,
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w400),
         ),
       ),
@@ -58,17 +58,20 @@ class BouttomCreateAccount extends StatelessWidget {
 
 // ignore: must_be_immutable
 class TextFormFieldWidget extends StatelessWidget {
-  TextFormFieldWidget(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.tilte,
-      required this.obscureText,
-      required this.validator});
+  TextFormFieldWidget({
+    super.key,
+    required this.abstract,
+    required this.controller,
+    required this.hintText,
+    required this.tilte,
+    required this.obscureText,
+    required this.validator,
+  });
   final TextEditingController controller;
   final String hintText;
   final String tilte;
   final bool obscureText;
+  final Icon abstract;
   String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
@@ -88,11 +91,12 @@ class TextFormFieldWidget extends StatelessWidget {
           obscureText: obscureText,
           controller: controller,
           style: GoogleFonts.lato(
-            color: Colors.white,
+            color: const Color.fromARGB(255, 255, 255, 255),
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
           decoration: InputDecoration(
+            suffixIcon: abstract,
             hintText: hintText,
             hintStyle: GoogleFonts.lato(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),

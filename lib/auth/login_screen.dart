@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -5,14 +7,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/auth/create_account_screen.dart';
 import 'package:todo_app/home/empty_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
+import 'package:todo_app/utils/app_dialog.dart';
+import 'package:todo_app/utils/app_shared_pref.dart';
 import 'package:todo_app/widget/matrial_buttom_widget.dart';
 
 // ignore: must_be_immutable
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   var email = TextEditingController();
+
   var password = TextEditingController();
+
   var formkey = GlobalKey<FormState>();
+  bool pass = true;
+  Icon iconsPass = const Icon(
+    Icons.visibility_off_outlined,
+    size: 30,
+    color: Colors.white,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,31 +71,85 @@ class LoginScreen extends StatelessWidget {
                   hintText: "Enter Email",
                   tilte: "Email",
                   obscureText: false,
+                  abstract: const Icon(
+                    Icons.email,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                TextFormFieldWidget(
+                Text(
+                  "Enter Password",
+                  style: GoogleFonts.lato(fontSize: 18, color: Colors.grey),
+                  textAlign: TextAlign.right,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                   validator: (Text) {
                     if (Text == null || Text.isEmpty) {
-                      return "Enter password !";
+                      return "Enter Password !";
                     }
                   },
+                  style: GoogleFonts.lato(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  obscureText: pass,
                   controller: password,
-                  hintText: "Enter Password",
-                  tilte: "Password",
-                  obscureText: true,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          pass = !pass;
+                          if (pass == false) {
+                            iconsPass = const Icon(
+                              Icons.visibility_outlined,
+                              size: 30,
+                              color: Colors.white,
+                            );
+                          } else {
+                            iconsPass = const Icon(
+                              Icons.visibility_off_outlined,
+                              size: 30,
+                              color: Colors.white,
+                            );
+                          }
+                        });
+                      },
+                      icon: iconsPass,
+                    ),
+                    hintText: "Password",
+                    hintStyle: GoogleFonts.lato(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: AppColors.pSocundColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 60,
                 ),
                 ButtomLogin(
                     onPressed: () async {
-                      await createAccount().timeout(
-                        Duration(milliseconds: 500),
+                      await login().timeout(
+                        const Duration(milliseconds: 500),
                         onTimeout: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EmptyScreen(),
+                            builder: (context) => const EmptyScreen(),
                           ));
                         },
                       );
@@ -97,7 +170,7 @@ class LoginScreen extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CreateAccountScreen(),
+                            builder: (context) => const CreateAccountScreen(),
                           ));
                         },
                         child: Text(
@@ -121,19 +194,29 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Future<void> createAccount() async {
+  Future<void> login() async {
     if (formkey.currentState!.validate()) {
+      AppDialog.showLoding(context: context);
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        FirebaseAuth auth = FirebaseAuth.instance;
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: password.text);
+        AppSharedPref.saveData(key: "Token", value: auth.currentUser!.uid);
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const EmptyScreen(),
+          ),
+        );
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+        if (e.code == 'user-not-found') {
+          AppDialog.showError(
+              content: "No user found for that email.", context: context);
+        } else if (e.code == 'wrong-password') {
+          AppDialog.showError(
+              content: "Wrong password provided for that user.",
+              context: context);
         }
-      } catch (e) {
-        print(e);
       }
     }
   }

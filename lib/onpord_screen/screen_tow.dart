@@ -64,7 +64,7 @@ class _ScreenTowState extends State<ScreenTow> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 60, left: 200),
+                  padding: const EdgeInsets.only(bottom: 60, left: 190),
                   child: BouttomNext(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
