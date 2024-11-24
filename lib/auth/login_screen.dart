@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, body_might_complete_normally_nullable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

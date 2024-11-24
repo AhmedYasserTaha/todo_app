@@ -2,6 +2,8 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/data/firebase/firebase_database.dart';
+import 'package:todo_app/data/model/app_users.dart';
 import 'package:todo_app/home/add_task_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:intl/intl.dart';
@@ -15,10 +17,20 @@ class EmptyScreen extends StatefulWidget {
 
 class _EmptyScreenState extends State<EmptyScreen> {
   DateTime now = DateTime.now();
-
-  String formattedDate = DateFormat('MMMM, dd, yyyy').format(
+  String formattedDate = DateFormat('MMMM-dd-yyyy').format(
     DateTime.now(),
   );
+  AppUsers? user;
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  void getUser() async {
+    user = await FirebaseDatabase.getUser();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +41,24 @@ class _EmptyScreenState extends State<EmptyScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.pDarkColor,
-        title: Text(
-          formattedDate,
-          style: GoogleFonts.lato(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+        title: Row(
+          children: [
+            Text(
+              formattedDate,
+              style: GoogleFonts.lato(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            const Spacer(),
+            Text(
+              user?.name ?? "",
+              style: GoogleFonts.lato(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.ptextColor),
+            ),
+          ],
         ),
       ),
       body: Padding(

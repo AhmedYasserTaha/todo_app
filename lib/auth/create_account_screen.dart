@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, body_might_complete_normally_nullable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -80,8 +80,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   height: 20,
                 ),
                 TextFormFieldWidget(
-                  validator: (Text) {
-                    if (Text == null || Text.isEmpty) {
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
                       return "Enter Email !";
                     }
                   },
@@ -107,8 +107,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   height: 10,
                 ),
                 TextFormField(
-                  validator: (Text) {
-                    if (Text == null || Text.isEmpty) {
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
                       return "Enter Password !";
                     }
                   },
@@ -182,7 +182,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => const LoginScreen(),
                           ),
                         );
                       },

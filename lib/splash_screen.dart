@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/home/empty_screen.dart';
 import 'package:todo_app/onpord_screen/screen_one.dart';
-import 'package:todo_app/start_screen.dart';
 import 'package:todo_app/utils/app_shared_pref.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -43,7 +43,7 @@ class StartScreen extends StatelessWidget {
                 ButtomLogin(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
+                      builder: (context) => const LoginScreen(),
                     ));
                   },
                   title: "LOGIN",
@@ -54,7 +54,7 @@ class StartScreen extends StatelessWidget {
                 BouttomCreateAccount(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreateAccountScreen(),
+                        builder: (context) => const CreateAccountScreen(),
                       ));
                     },
                     textBouttom: 'CREATE ACCOUNT'),
