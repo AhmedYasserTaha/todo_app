@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/data/firebase/firebase_database.dart';
+import 'package:todo_app/data/model/app_task.dart';
 import 'package:todo_app/data/model/app_users.dart';
 import 'package:todo_app/home/add_task_screen.dart';
+import 'package:todo_app/home/widget/task_item_widget.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/widget/matrial_buttom_widget.dart';
 
 class EmptyScreen extends StatefulWidget {
   const EmptyScreen({super.key});
@@ -16,15 +19,19 @@ class EmptyScreen extends StatefulWidget {
 }
 
 class _EmptyScreenState extends State<EmptyScreen> {
-  DateTime now = DateTime.now();
+  DateTime focusDate = DateTime.now();
+
   String formattedDate = DateFormat('MMMM-dd-yyyy').format(
     DateTime.now(),
   );
   AppUsers? user;
+  List<AppTask> allTasks = [];
+
   @override
   void initState() {
     super.initState();
     getUser();
+    getAllUsers();
   }
 
   void getUser() async {
@@ -32,10 +39,22 @@ class _EmptyScreenState extends State<EmptyScreen> {
     setState(() {});
   }
 
+  void getAllUsers() async {
+    allTasks = await FirebaseDatabase.getAllTasks();
+    allTasks = allTasks.where((task) {
+      if (task.dateTime.day == focusDate.day &&
+          task.dateTime.month == focusDate.month &&
+          task.dateTime.year == focusDate.year) {
+        return true;
+      }
+      return false;
+    }).toList();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var siz = MediaQuery.of(context).size;
-    List<int> taskList = [];
     return Scaffold(
       backgroundColor: AppColors.pDarkColor,
       appBar: AppBar(
@@ -56,18 +75,18 @@ class _EmptyScreenState extends State<EmptyScreen> {
               style: GoogleFonts.lato(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.ptextColor),
+                  color: const Color.fromARGB(255, 255, 123, 0)),
             ),
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            const Gap(15),
-            SizedBox(
-              width: double.infinity,
+      body: Column(
+        children: [
+          const Gap(15),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
               child: Text(
                 "Today",
                 style: GoogleFonts.lato(
@@ -76,75 +95,34 @@ class _EmptyScreenState extends State<EmptyScreen> {
                     color: Colors.white),
               ),
             ),
-            const Gap(20),
-            _easyInfiniteDateTimeLineWidget(),
-            const Gap(50),
-            taskList.isEmpty
-                ? Image.asset(
-                    "assets/images/background_hs.png",
-                    height: siz.height * .40,
-                    width: siz.width * 80,
-                  )
-                : Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    height: siz.height * .16,
-                    width: siz.width * .90,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffFF4666),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Task 1",
-                              style: GoogleFonts.lato(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            const Gap(10),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.timer,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                                const Gap(10),
-                                Text(
-                                  "09:33 PM - 09:48 PM",
-                                  style: GoogleFonts.lato(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                            const Gap(10),
-                            Text("Learn Dart",
-                                style: GoogleFonts.lato(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white))
-                          ],
-                        ),
-                        const Spacer(),
-                        Container(
-                          width: 1.5,
-                          height: 80,
-                          color: Colors.white,
-                        ),
-                        const Gap(15),
-                        Image.asset("assets/images/todo_icon.png"),
-                        const Gap(5),
-                      ],
+          ),
+          const Gap(20),
+          _easyInfiniteDateTimeLineWidget(),
+          const Gap(50),
+          allTasks.isEmpty
+              ? Image.asset(
+                  "assets/images/background_hs.png",
+                  height: siz.height * .40,
+                  width: siz.width * 80,
+                )
+              : Expanded(
+                  child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Gap(15),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        _modalBouttomSheet(allTasks[index]);
+                      },
+                      child: TaskItemWidget(
+                        siz: siz,
+                        task: allTasks[index],
+                      ),
                     ),
+                    itemCount: allTasks.length,
                   ),
-          ],
-        ),
+                ))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -166,14 +144,19 @@ class _EmptyScreenState extends State<EmptyScreen> {
 
   EasyInfiniteDateTimeLine _easyInfiniteDateTimeLineWidget() {
     return EasyInfiniteDateTimeLine(
-      firstDate: DateTime.now(),
-      focusDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 30)),
+      firstDate: DateTime.now().subtract(Duration(days: 30)),
+      focusDate: focusDate,
+      lastDate: DateTime.now().add(const Duration(days: 90)),
+      onDateChange: (selectedDate) {
+        focusDate = selectedDate;
+        getAllUsers();
+        // setState(() {});
+      },
       showTimelineHeader: false,
       physics: const BouncingScrollPhysics(),
-      activeColor: const Color(0xff242969),
+      activeColor: const Color.fromARGB(255, 255, 123, 0),
       dayProps: const EasyDayProps(
-        borderColor: AppColors.pDarkColor,
+        borderColor: Color.fromARGB(255, 255, 123, 0),
         inactiveDayNumStyle:
             TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 16),
         inactiveDayStrStyle: TextStyle(
@@ -190,15 +173,203 @@ class _EmptyScreenState extends State<EmptyScreen> {
             fontWeight: FontWeight.w400),
         activeDayStrStyle: TextStyle(
             color: Color.fromARGB(190, 255, 255, 255),
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.w400),
+        inactiveDayStyle: DayStyle(
+            dayNumStyle: TextStyle(color: Color.fromARGB(255, 255, 123, 0))),
         activeMothStrStyle: TextStyle(
             color: Color.fromARGB(190, 255, 255, 255),
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.w400),
+        activeDayStyle: DayStyle(
+          dayNumStyle: TextStyle(fontSize: 20, color: Colors.white),
+        ),
       ),
-      onDateChange: (selectedDate) {
-        setState(() {});
+    );
+  }
+
+  void _modalBouttomSheet(AppTask task) {
+    showModalBottomSheet(
+      backgroundColor: AppColors.pDarkColor,
+      isDismissible: true,
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 250,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ButtomLogin(
+                title: "Task UpDate",
+                onPressed: () async {
+                  Navigator.of(context)
+                      .pop(); // إغلاق الـ Bottom Sheet قبل التحديث
+                  // نافذة إدخال لتحديث المهمة
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      TextEditingController titleController =
+                          TextEditingController(text: task.title);
+                      TextEditingController descriptionController =
+                          TextEditingController(text: task.description);
+
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width *
+                              0.9, // عرض الشاشة بنسبة 90%
+                          color: AppColors.pDarkColor,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "Update Task",
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  "Task Title",
+                                  style: GoogleFonts.lato(
+                                    color: Colors.orangeAccent,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                  controller: titleController,
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: "Enter task title",
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white54),
+                                    filled: true,
+                                    fillColor:
+                                        AppColors.pSocundColor.withOpacity(0.2),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.orangeAccent),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.orangeAccent),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  "Task Description",
+                                  style: GoogleFonts.lato(
+                                    color: Colors.orangeAccent,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                  controller: descriptionController,
+                                  maxLines: 3,
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: "Enter task description",
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white54),
+                                    filled: true,
+                                    fillColor:
+                                        AppColors.pSocundColor.withOpacity(0.2),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.orangeAccent),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.orangeAccent),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text(
+                                        "Cancel",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        // تنفيذ التحديث
+                                        await FirebaseDatabase.editTask(
+                                            task.id, {
+                                          'title': titleController.text,
+                                          'description':
+                                              descriptionController.text,
+                                        });
+                                        Navigator.of(context)
+                                            .pop(); // إغلاق نافذة التحديث
+                                        getAllUsers(); // تحديث قائمة المهام
+                                      },
+                                      child: const Text(
+                                        "Update",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              ButtomLogin(
+                title: "Delete Task",
+                onPressed: () async {
+                  await FirebaseDatabase.deleteTask(task.id);
+                  allTasks.remove(task);
+                  Navigator.of(context).pop();
+                  setState(() {});
+                },
+                color: const Color.fromARGB(255, 255, 0, 43),
+              ),
+              ButtomLogin(
+                title: "Cancel",
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
       },
     );
   }

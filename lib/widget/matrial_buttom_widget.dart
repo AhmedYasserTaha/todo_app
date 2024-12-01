@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/utils/app_colors.dart';
 
+// ignore: must_be_immutable
 class ButtomLogin extends StatelessWidget {
-  const ButtomLogin({super.key, required this.onPressed, required this.title});
+  ButtomLogin(
+      {super.key,
+      required this.onPressed,
+      required this.title,
+      this.color = AppColors.pSocundColor});
   final void Function()? onPressed;
   final String title;
+  Color color = AppColors.pSocundColor;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: MaterialButton(
         onPressed: onPressed,
-        color: AppColors.pSocundColor,
+        color: color,
         minWidth: 370,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),

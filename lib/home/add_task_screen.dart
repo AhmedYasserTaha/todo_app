@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/data/firebase/firebase_database.dart';
 import 'package:todo_app/data/model/app_task.dart';
+import 'package:todo_app/home/empty_screen.dart';
 import 'package:todo_app/home/widget/task_widget_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/utils/app_dialog.dart';
@@ -130,14 +131,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       color: Color(colorCode[index]),
                                       shape: BoxShape.circle,
                                       border: activeColor == colorCode[index]
-                                          ? Border.all(
-                                              color: Colors.white, width: 2)
+                                          ? Border.all()
                                           : null),
                                 ),
                                 activeColor == colorCode[index]
                                     ? const Icon(
                                         Icons.check,
-                                        color: Colors.white,
+                                        color: Color.fromARGB(255, 255, 123, 0),
                                       )
                                     : const SizedBox(),
                               ],
@@ -168,11 +168,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         AppTask task = AppTask(
             title: tilte.text,
             description: note.text,
-            dateTime: DateTime.now(),
+            dateTime: time,
             color: activeColor);
         await FirebaseDatabase.addTask(task);
         Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => EmptyScreen(),
+          ),
+          (route) => false,
+        );
       } catch (e) {
         Navigator.of(context).pop();
 
@@ -218,6 +223,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           String formattedDate = DateFormat('dd,MMMM,yyyy').format(datetime);
 
           setState(() {
+            time = datetime;
             datePicker.text = formattedDate;
           });
         }

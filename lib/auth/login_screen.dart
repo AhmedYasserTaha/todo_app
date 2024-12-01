@@ -195,29 +195,38 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login() async {
-    if (formkey.currentState!.validate()) {
-      AppDialog.showLoding(context: context);
-      try {
-        FirebaseAuth auth = FirebaseAuth.instance;
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: password.text);
-        AppSharedPref.saveData(key: "Token", value: auth.currentUser!.uid);
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const EmptyScreen(),
-          ),
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          AppDialog.showError(
-              content: "No user found for that email.", context: context);
-        } else if (e.code == 'wrong-password') {
-          AppDialog.showError(
-              content: "Wrong password provided for that user.",
-              context: context);
-        }
+    if (!formkey.currentState!.validate()) {
+      return; // لا تنفذ إذا لم تكن المدخلات صالحة
+    }
+    AppDialog.showLoding(context: context);
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email.text.trim(), password: password.text.trim());
+      AppSharedPref.saveData(key: "Token", value: auth.currentUser!.uid);
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const EmptyScreen(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop(); // أغلق نافذة التحميل
+      if (e.code == 'user-not-found') {
+        AppDialog.showError(
+            content: "No user found for that email.", context: context);
+      } else if (e.code == 'wrong-password') {
+        AppDialog.showError(
+            content: "Wrong password provided for that user.",
+            context: context);
+      } else {
+        AppDialog.showError(content: e.message!, context: context);
       }
+    } catch (e) {
+      Navigator.of(context).pop(); // أغلق نافذة التحميل
+      AppDialog.showError(
+          content: "An unexpected error occurred. Please try again.",
+          context: context);
     }
   }
 }
