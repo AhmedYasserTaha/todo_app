@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/utils/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class ButtomLogin extends StatelessWidget {
@@ -63,6 +65,7 @@ class BouttomCreateAccount extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
+
 class TextFormFieldWidget extends StatelessWidget {
   TextFormFieldWidget({
     super.key,
@@ -73,12 +76,14 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.obscureText,
     required this.validator,
   });
+
   final TextEditingController controller;
   final String hintText;
   final String tilte;
   final bool obscureText;
   final Icon abstract;
-  String? Function(String?)? validator;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -101,6 +106,9 @@ class TextFormFieldWidget extends StatelessWidget {
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
+          maxLines: null, // لدعم النصوص متعددة الأسطر
+          keyboardType: TextInputType
+              .multiline, // لجعل لوحة المفاتيح تدعم النصوص المتعددة
           decoration: InputDecoration(
             suffixIcon: abstract,
             hintText: hintText,
@@ -108,7 +116,8 @@ class TextFormFieldWidget extends StatelessWidget {
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: AppColors.pSocundColor),
+              borderSide:
+                  const BorderSide(color: Colors.blue), // عدّل اللون حسب الحاجة
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

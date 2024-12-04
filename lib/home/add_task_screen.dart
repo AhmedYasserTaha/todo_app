@@ -99,15 +99,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
                 const Gap(10),
                 dateFromeHistory(context),
-                const Gap(50),
-                const Row(
-                  children: [
-                    StartAndEndtimer(hintLabelText: "Start Time"),
-                    Gap(20),
-                    StartAndEndtimer(hintLabelText: "End Time"),
-                  ],
-                ),
-                const Gap(20),
+                const Gap(70),
                 Text(
                   "Color",
                   style: GoogleFonts.lato(color: Colors.white, fontSize: 20),

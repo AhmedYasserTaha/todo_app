@@ -14,49 +14,57 @@ class TaskItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      height: siz.height * .16,
-      width: siz.width * .90,
+      width: siz.width * .90, // العرض ثابت
       decoration: BoxDecoration(
-          color: Color(task.color), borderRadius: BorderRadius.circular(20)),
+        color: Color(task.color),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                task.title,
-                style: GoogleFonts.lato(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              const Gap(10),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.timer,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  const Gap(10),
-                  Text(
-                    DateFormat("dd-MM-yyyy").format(task.dateTime),
-                    style: GoogleFonts.lato(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              const Gap(10),
-              Text(task.description,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  task.title,
                   style: GoogleFonts.lato(
                       fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                const Gap(10),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.timer,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    const Gap(10),
+                    Text(
+                      DateFormat("dd-MM-yyyy").format(task.dateTime),
+                      style: GoogleFonts.lato(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                const Gap(10),
+                // النص الوصفي
+                Text(
+                  task.description,
+                  maxLines: null, // النص يمتد عبر أسطر متعددة
+                  softWrap: true, // التفاف النص تلقائيًا
+                  style: GoogleFonts.lato(
+                      fontSize: 18,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white))
-            ],
+                      color: Colors.white),
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
+          const Gap(20),
           Container(
             width: 1.5,
             height: 80,
