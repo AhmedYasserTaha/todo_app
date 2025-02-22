@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/data/firebase/firebase_database.dart';
 import 'package:todo_app/data/model/app_task.dart';
 import 'package:todo_app/home/empty_screen.dart';
-import 'package:todo_app/home/widget/task_widget_screen.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/utils/app_dialog.dart';
 import 'package:todo_app/widget/matrial_buttom_widget.dart';
